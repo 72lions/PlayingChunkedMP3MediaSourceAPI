@@ -8,7 +8,9 @@ and it loads the second.
 When the second part is loaded then it is appended to the SourceBuffer
 by using the MediaSource API.
 
-That's it!
+That's it! 
+
+Check it out: <a href="http://72lions.github.io/PlayingChunkedMP3MediaSourceAPI/" target="_blank">Demo</a>
 
 There is another implementation that I created a year ago which uses
 only the Web Audio API. You can find it
