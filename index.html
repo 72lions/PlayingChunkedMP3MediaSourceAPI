@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MediaSource Extensions API - Playing a chunked MP3</title>
+  <style type="text/css">
+    html, body {
+      margin :0;
+      padding: 0;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    #container {
+      position: relative;
+      margin: 0 auto;
+      text-align: center;
+      width: 800px;
+    }
+
+    #container audio {
+      position: absolute;
+      top: 0%;
+      left: 50%;
+      margin: 100px 0 0 -150px;
+    }
+
+    h1 {
+      font-weight: 200;
+      font-size: 36px;
+      color: #ee0000;
+    }
+
+    #container p {
+      text-align: left;
+      font-size: 17px;
+      line-height: 26px;
+      margin-top: 36px;
+      color: #000;
+      font-weight: 300;
+    }
+
+    a:link, a:hover, a:visited {
+      color: #ee0000;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="container">
+    <canvas width="1024" height="255"></canvas>
+    <audio id="track" controls></audio>
+    <p class="left-align">
+      <h1>Playing a chunked MP3 with the MediaSource Extensions API</h1>
+      <p>
+        In this proof of concept (currently only tested and working in Chrome 35+)
+        I've split the mp3 in 25 parts by using the unix split command.
+        The moment the first part is loaded then the playback starts immediately
+        and it loads the second.
+
+        When the second part is loaded then it is appended to the SourceBuffer
+        by using the MediaSource API.
+      </p>
+      <p>That's it!</p>
+      <p>
+        There is another implementation that I created a year ago which uses
+        only the Web Audio API. You can find it
+        <a href="https://github.com/72lions/PlayingChunkedMP3-WebAudioAPI" target="_blank">here</a>.
+      </p>
+      <p>
+        A lot of thanks to Theo for letting me use his awesome track&nbsp;
+        <a href="https://soundcloud.com/theokouroumlis/breathe-in">Breathe In</a>.
+      </p>
+      <p>You can check the source code on
+        <a href="https://github.com/72lions/PlayingChunkedMP3-WebAudioAPI" target="_blank">Github</a>.
+      </p>
+    </p>
+  </div>
+  <script type="text/javascript" src="main.js"></script>
+</body>
+</html>
