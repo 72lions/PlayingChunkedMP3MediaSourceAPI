@@ -1,0 +1,38 @@
+html, body {
+  margin :0;
+  padding: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#container {
+  position: relative;
+  margin: 0 auto;
+  text-align: center;
+  width: 800px;
+}
+
+#container audio {
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  margin: 100px 0 0 -150px;
+}
+
+h1 {
+  font-weight: 200;
+  font-size: 36px;
+  color: #ee0000;
+}
+
+#container p {
+  text-align: left;
+  font-size: 17px;
+  line-height: 26px;
+  margin-top: 36px;
+  color: #000;
+  font-weight: 300;
+}
+
+a:link, a:hover, a:visited {
+  color: #ee0000;
+}

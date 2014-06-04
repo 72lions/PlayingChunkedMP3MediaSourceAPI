@@ -69,6 +69,13 @@
    */
   var _canvasContext;
 
+  /**
+   * Holds a counter with all cached the buffered that we send to the
+   * SourceBuffer.
+   * @type {Number}
+   */
+  var _itemsAppendedToSourceBuffer = 0;
+
   //#### FILE LOADING ###
 
   /**
@@ -87,7 +94,7 @@
       }
     };
 
-    var file = 'chunks/' + filename + '?t=' + Math.floor(Math.random() * 1000);
+    var file = 'chunks/' + filename;
 
     request.open('GET', file , true);
     request.send();
@@ -102,18 +109,19 @@
   function startFileLoading(i) {
     // Load the chunk
     get(_files[i], function(result) {
-      console.log('XMLHttpRequest: resolved', _files[i]);
+
+      console.log('XMLHttpRequest: loaded', _files[i]);
+
       // Cache the buffer
       _loadedBuffers.push(result);
 
-      if (i == 0) {
-        // if it is the first chunk then
-        // load it to the source buffer.
+      if (!_sourceBuffer.updating) {
         loadNextBuffer();
+      }
 
+      if (i == 0) {
         // Start playback
         startPlayback();
-
       }
 
       i++;
@@ -130,12 +138,13 @@
    * It appends puts the next cached buffer into the source buffer.
    */
   function loadNextBuffer() {
-    // If we have cached buffers
     if (_loadedBuffers.length) {
-      console.log('source buffer: appending an array buffer');
       // append the next one into the source buffer.
       _sourceBuffer.appendBuffer(_loadedBuffers.shift());
-    } else {
+      _itemsAppendedToSourceBuffer++;
+    }
+
+    if (_itemsAppendedToSourceBuffer >= _files.length && !_sourceBuffer.updating) {
       // else close the stream
       _mediaSource.endOfStream();
     }
