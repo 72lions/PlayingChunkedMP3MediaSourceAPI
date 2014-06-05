@@ -43,6 +43,11 @@
   var _audioEl = document.querySelector('#track');
 
   /**
+   * The html element that will show the logs.
+   */
+  var _logEl = document.querySelector("#logger");
+
+  /**
    * The MediaSource's AudioBuffer.
    */
   var _sourceBuffer;
@@ -75,6 +80,23 @@
    * @type {Number}
    */
   var _itemsAppendedToSourceBuffer = 0;
+
+  //#### LOGGER ###
+
+  /**
+   * The logger object is used for showing logs in an HTML element.
+   * @type {Object}
+   */
+  var _logger = {
+    log: function() {
+      try {
+      var args = Array.prototype.slice.call(arguments, 0);
+        _logEl.textContent = args.join(' ') + '\n' + _logEl.textContent;
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }
 
   //#### FILE LOADING ###
 
@@ -111,6 +133,7 @@
     get(_files[i], function(result) {
 
       console.log('XMLHttpRequest: loaded', _files[i]);
+      _logger.log('XMLHttpRequest: loaded', _files[i]);
 
       // Cache the buffer
       _loadedBuffers.push(result);
@@ -139,6 +162,8 @@
    */
   function loadNextBuffer() {
     if (_loadedBuffers.length) {
+      console.log('SourceBuffer: appending', _files[_itemsAppendedToSourceBuffer]);
+      _logger.log('SourceBuffer: appending', _files[_itemsAppendedToSourceBuffer]);
       // append the next one into the source buffer.
       _sourceBuffer.appendBuffer(_loadedBuffers.shift());
       _itemsAppendedToSourceBuffer++;
@@ -156,7 +181,7 @@
    */
   function sourceOpenCallback() {
     console.log('mediaSource readyState: ' + this.readyState);
-
+    _logger.log('mediaSource readyState: ' + this.readyState);
     // Create the source buffer where we are going to append the
     // new chunks.
     _sourceBuffer = _mediaSource.addSourceBuffer('audio/mpeg');
@@ -171,6 +196,7 @@
    */
   function sourceCloseCallback() {
     console.log('mediaSource readyState: ' + this.readyState);
+    _logger.log('mediaSource readyState: ' + this.readyState);
     _mediaSource.removeSourceBuffer(_sourceBuffer);
   }
 
@@ -179,6 +205,7 @@
    */
   function sourceEndedCallback() {
     console.log('mediaSource readyState: ' + this.readyState);
+    _logger.log('mediaSource readyState: ' + this.readyState);
   }
 
   /**
@@ -196,7 +223,7 @@
    * Setups the Web Audio API.
    */
   function setupWebAudio() {
-    var audioContext = new webkitAudioContext();
+    var audioContext = new AudioContext();
     _analyser = audioContext.createAnalyser();
     var source = audioContext.createMediaElementSource(_audioEl);
     source.connect(_analyser);
