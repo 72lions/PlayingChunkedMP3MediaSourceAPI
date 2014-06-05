@@ -14,7 +14,7 @@ html, body {
 #container audio {
   position: absolute;
   top: 0%;
-  left: 50%;
+  left: 32%;
   margin: 100px 0 0 -150px;
 }
 
@@ -35,4 +35,18 @@ h1 {
 
 a:link, a:hover, a:visited {
   color: #ee0000;
+}
+
+
+#logger {
+  position: absolute;
+  width: 280px;
+  top: 0;
+  right: 0;
+  height: 255px;
+  text-align: left;
+  color: #666;
+  overflow: scroll;
+  text-shadow: 1px 1px 1px #fff;
+  margin: 0;
 }
